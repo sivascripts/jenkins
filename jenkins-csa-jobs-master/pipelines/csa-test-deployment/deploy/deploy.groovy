@@ -1,4 +1,4 @@
-node('any')  {
+
     agent any
   // Global Variables declaration
   // CHECK - Is this the correct bucket/prefix?
@@ -33,7 +33,7 @@ node('any')  {
       }
     }
   }
-}
+
 
 def git_checkout() {
     checkout([$class: 'GitSCM', branches: [[name: gitBranch]], clearWorkspace: true, doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: gitCreds, url: gitUrl]]])
