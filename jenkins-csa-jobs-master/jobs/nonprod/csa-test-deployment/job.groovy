@@ -1,4 +1,4 @@
-def gitCreds             = 'sivasiva_credentials'
+def gitCreds             = 'siva_credentials'
 def gitDeployRepo        = 'https://github.com/sivascripts/terraform'
 def gitBranch            = 'main'
 def terraformaccounttype = 'nonprod'
@@ -22,7 +22,7 @@ pipelineJob('csa-terraform-deploy') {
   }
   definition {
     cps {
-      script(readFileFromWorkspace('pipelines/csa-test-deployment/deploy/deploy.groovy'))
+      script(readFileFromWorkspace('jenkins-csa-jobs-master/pipelines/csa-test-deployment/deploy/deploy.groovy'))
 	    sandbox()
     }
   }
