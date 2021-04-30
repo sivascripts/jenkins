@@ -1,4 +1,4 @@
-def gitCreds             = 'siva'
+def gitCreds             = 'sivasiva_credentials'
 def gitDeployRepo        = 'https://github.com/sivascripts/terraform'
 def gitBranch            = 'main'
 def terraformaccounttype = 'nonprod'
