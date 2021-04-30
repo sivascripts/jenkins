@@ -1,4 +1,5 @@
-node ('any') {
+node('any')  {
+    agent any
   // Global Variables declaration
   // CHECK - Is this the correct bucket/prefix?
   terraformBucket = "csaterraformremote/"
@@ -84,4 +85,5 @@ def run_terraform(terraformdir,stage_description,tfstate_key) {
       }
     }
   }
+}
 }
