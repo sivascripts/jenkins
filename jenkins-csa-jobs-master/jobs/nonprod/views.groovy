@@ -1,4 +1,5 @@
- views {
+nestedView('Siva') {
+    views {
         listView('All') {
         description('')
         jobs {
@@ -15,4 +16,5 @@
             buildButton()
           }
         }
+    }
  }
