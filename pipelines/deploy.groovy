@@ -1,4 +1,4 @@
-node  {
+node ('any') {
   // Global Variables declaration
   // CHECK - Is this the correct bucket/prefix?
   terraformBucket = "csaterraformremote/"
