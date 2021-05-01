@@ -41,7 +41,7 @@ def git_checkout() {
     checkout([$class: 'GitSCM', branches: [[name: gitBranch]], clearWorkspace: true, doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: gitCreds, url: gitUrl]]])
 }
 
-def terraform_init(terraformBucket, terraformPrefix, terraformKey) {
+def terraform_init(terraformBucket, terraformPrefix, terraformkey) {
   
       //sh "terraform init -no-color -force-copy -input=false"
       sh "terraform init -no-color -force-copy -input=false -upgrade=true -backend=true -backend-config='bucket=${terraformBucket}' -backend-config='workspace_key_prefix=${terraformPrefix}' -backend-config='key=${terraformkey}'"
