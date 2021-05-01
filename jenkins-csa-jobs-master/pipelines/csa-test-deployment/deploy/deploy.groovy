@@ -7,7 +7,7 @@
 
   // Local Variables declaration
   // CHECK - These may change depending on Terraform development
-  def terraformdir_LinuxInstance = "Terraform"
+  def terraformdir_LinuxInstance = "terrafrom_linux"
 
   stage('Initiating'){
     echo "Cleaning up workspace"
@@ -39,22 +39,19 @@ def git_checkout() {
     checkout([$class: 'GitSCM', branches: [[name: gitBranch]], clearWorkspace: true, doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: gitCreds, url: gitUrl]]])
 }
 
-def terraform_init(terraformBucket,terraformPrefix,terraformkey) {
+def terraform_init() {
   
-      sh "terraform init -no-color -force-copy -input=false -upgrade=true -backend=true -backend-config='bucket=${terraformBucket}' -backend-config='workspace_key_prefix=${terraformPrefix}' -backend-config='key=${terraformkey}'"
+      sh "terraform init -no-color -force-copy -input=false"
       sh "terraform get -no-color -update=true"
 		}
 	
-
-
-def terraform_plan(workspace,global_tfvars,env_tfvars) {
+def terraform_plan(workspace) {
     sh "terraform workspace select ${workspace} || terraform workspace new ${workspace}"
 	 
-    sh "terraform plan -no-color -out=tfplan -input=false -var-file=${global_tfvars} -var-file=${env_tfvars}"
+    sh "terraform plan -no-color -out=tfplan"
     
 
 }
-
 
 def terraform_apply() {
 	sh "terraform apply -input=false -no-color tfplan"
@@ -65,13 +62,11 @@ def run_terraform(terraformdir,stage_description,tfstate_key) {
     stage ('Terraform Remote State') {
       print ("### Terraform Remote State for ${stage_description} ###")
       terraformKey = "${tfstate_key}.tfstate"
-      terraform_init(terraformBucket, terraformPrefix, terraformKey)
+      terraform_init()
     }
     stage ('Terraform Plan') {
       print ("### Terraform Plan for ${stage_description} ###")
-      global_tfvars = "${WORKSPACE}/${terraformenv}/environments/global.tfvars"
-      env_tfvars = "${WORKSPACE}/${terraformenv}/environments/${terraformenv}.tfvars"
-      terraform_plan(terraformenv, global_tfvars, env_tfvars)
+      terraform_plan()
     }
     if (terraformApplyPlan == 'true') {
       stage ('Terraform Apply') {

@@ -1,23 +1,18 @@
 def gitCreds             = 'siva_credentials'
-def gitDeployRepo        = 'https://github.com/sivascripts/terraform'
-def gitBranch            = 'main'
+def gitDeployRepo        = 'https://github.com/sivascripts/Terraform.git'                       
+def gitBranch            = 'master'
 def terraformaccounttype = 'nonprod'
 
 pipelineJob('csa-terraform-deploy') {
-  description('')
+  description('Deploy Pipeline')
   logRotator(10, 10)
   parameters {
-   choiceParam('gitCreds', [gitCreds], '')
-   choiceParam('gitUrl', [gitDeployRepo], '')
+   choiceParam('gitCreds', [gitCreds], 'git credntials id')
+   choiceParam('gitUrl', [gitDeployRepo], 'Git Url')
    stringParam('gitBranch', 'master', 'Git branch name')
    stringParam('terraformaccounttype', 'nonprod', 'Terraform account')
    choiceParam('terraformenv', ['rwy','test','pre'],'Environment that will the stacks will be deployed')
-   booleanParam('tfPlanFrontendASG_AISServer', false, 'terraform plan on ASG_AISServer')
-	 booleanParam('tfPlanFrontendDNS_AISServer', false, 'terraform plan on DNS_AISServer')
-	 booleanParam('tfPlanFrontendASG_InsightServer', false, 'terraform plan on ASG_InsightServer')
-	 booleanParam('tfPlanFrontendDNS_InsightServer', false, 'terraform plan on DNS_InsightServer')
-	 booleanParam('tfPlanAllFinanzTest', false, 'Select this to build AllFinanz Test Server')
-   nonStoredPasswordParam('proxy_pass',  'Proxy password')
+   booleanParam('tfPlanLinuxInstance', false, 'terraform plan on ASG_AISServer')
    booleanParam('terraformApplyPlan', false, 'terraform APPLY on above selected terraform plans')
   }
   definition {
