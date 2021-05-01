@@ -1,5 +1,3 @@
-
-    agent any
   // Global Variables declaration
   // CHECK - Is this the correct bucket/prefix?
   terraformBucket = "csaterraformremote/"
@@ -7,6 +5,9 @@
 
   // Local Variables declaration
   // CHECK - These may change depending on Terraform development
+  pipeline
+  {
+    agent any
   def terraformdir_LinuxInstance = "terrafrom_linux"
 
   stage('Initiating'){
@@ -32,6 +33,7 @@
           run_terraform(stack_list[1], stack_list[2], stack_list[3])
       }
     }
+  }
   }
 
 
