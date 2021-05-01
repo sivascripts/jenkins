@@ -71,7 +71,10 @@ def run_terraform(terraformdir,stage_description,tfstate_key) {
       terraformKey = "${tfstate_key}.tfstate"
       terraform_init(terraformBucket, terraformPrefix, terraformKey)
     }
-    
+    stage ('Terraform Plan') {
+      print ("### Terraform Plan for ${stage_description} ###")
+      terraform_plan(terraformenv)
+
     if (terraformDestroy == 'true') {
       stage ('Terraform Destroy') {
         print ("### Terraform Destroy for ${stage_description} ###")
