@@ -2,6 +2,10 @@
   // CHECK - Is this the correct bucket/prefix?
  
 
+    // Global Variables declaration
+  // CHECK - Is this the correct bucket/prefix?
+ 
+
   // Local Variables declaration
   // CHECK - These may change depending on Terraform development
   node('master')
@@ -41,9 +45,10 @@ def git_checkout() {
     checkout([$class: 'GitSCM', branches: [[name: gitBranch]], clearWorkspace: true, doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: gitCreds, url: gitUrl]]])
 }
 
-def terraform_init(terraformKey) {
+def terraform_init(terraformBucket, terraformPrefix, terraformkey) {
   
-      sh "terraform init -no-color -force-copy -input=false -backend-config='key=${terraformkey}'"
+      //sh "terraform init -no-color -force-copy -input=false"
+      sh "terraform init -no-color -force-copy -input=false -upgrade=true -backend=true -backend-config='bucket=csaterraformremote' -backend-config='prefix=${terraformPrefix}/${terraformkey}'"
       sh "terraform get -no-color -update=true"
 		}
 	
@@ -58,13 +63,13 @@ def terraform_plan(workspace) {
 def terraform_destroy() {
 	sh "terraform destroy -input=false -no-color tfplan"
 }
-
+ 
 def run_terraform(terraformdir,stage_description,tfstate_key) {
   dir(terraformdir) {
     stage ('Terraform Remote State') {
       print ("### Terraform Remote State for ${stage_description} ###")
       terraformKey = "${tfstate_key}.tfstate"
-      terraform_init(terraformKey)
+      terraform_init(terraformBucket, terraformPrefix, terraformKey)
     }
     stage ('Terraform Plan') {
       print ("### Terraform Plan for ${stage_description} ###")
