@@ -41,9 +41,10 @@ def git_checkout() {
     checkout([$class: 'GitSCM', branches: [[name: gitBranch]], clearWorkspace: true, doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: gitCreds, url: gitUrl]]])
 }
 
-def terraform_init() {
+def terraform_init(terraformBucket, terraformPrefix, terraformKey) {
   
-      sh "terraform init -no-color -force-copy -input=false"
+      //sh "terraform init -no-color -force-copy -input=false"
+      sh "terraform init -no-color -force-copy -input=false -upgrade=true -backend=true -backend-config='bucket=${terraformBucket}' -backend-config='workspace_key_prefix=${terraformPrefix}' -backend-config='key=${terraformkey}'"
       sh "terraform get -no-color -update=true"
 		}
 	
@@ -58,13 +59,13 @@ def terraform_plan(workspace) {
 def terraform_apply() {
 	sh "terraform apply -input=false -no-color tfplan"
 }
-
+ 
 def run_terraform(terraformdir,stage_description,tfstate_key) {
   dir(terraformdir) {
     stage ('Terraform Remote State') {
       print ("### Terraform Remote State for ${stage_description} ###")
       terraformKey = "${tfstate_key}.tfstate"
-      terraform_init()
+      terraform_init(terraformBucket, terraformPrefix, terraformKey)
     }
     stage ('Terraform Plan') {
       print ("### Terraform Plan for ${stage_description} ###")
