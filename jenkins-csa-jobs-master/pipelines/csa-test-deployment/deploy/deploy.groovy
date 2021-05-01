@@ -55,8 +55,8 @@ def terraform_plan(workspace) {
 
 }
 
-def terraform_apply() {
-	sh "terraform apply -input=false -no-color tfplan"
+def terraform_destroy() {
+	sh "terraform destroy -input=false -no-color tfplan"
 }
 
 def run_terraform(terraformdir,stage_description,tfstate_key) {
@@ -70,14 +70,14 @@ def run_terraform(terraformdir,stage_description,tfstate_key) {
       print ("### Terraform Plan for ${stage_description} ###")
       terraform_plan(terraformenv)
     }
-    if (terraformApplyPlan == 'true') {
-      stage ('Terraform Apply') {
+    if (terraformDestroy == 'true') {
+      stage ('Terraform Destroy') {
         print ("### Terraform Apply for ${stage_description} ###")
-        terraform_apply()
+        terraform_destroy()
       }
     }
     else {
-      stage ('Terraform Apply') {
+      stage ('Terraform Destroy') {
         print ("### Skip Terraform Apply for ${stage_description} ###")
       }
     }
