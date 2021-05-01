@@ -11,7 +11,7 @@ pipelineJob('csa-terraform-deploy') {
    choiceParam('gitUrl', [gitDeployRepo], 'Git Url')
    stringParam('gitBranch', 'master', 'Git branch name')
    stringParam('terraformaccounttype', 'nonprod', 'Terraform account')
-   choiceParam('terraformenv', ['rwy','test','pre'],'Environment that will the stacks will be deployed')
+   choiceParam('terraformenv', ['dev','test','pre'],'Environment that will the stacks will be deployed')
    booleanParam('tfPlanLinuxInstance', false, 'terraform plan on ASG_AISServer')
    booleanParam('terraformApplyPlan', false, 'terraform APPLY on above selected terraform plans')
   }

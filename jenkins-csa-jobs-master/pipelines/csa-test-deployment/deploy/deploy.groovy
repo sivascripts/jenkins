@@ -7,7 +7,7 @@
   // CHECK - These may change depending on Terraform development
   node('master')
   {
-  def terraformdir_LinuxInstance = "rwy"
+  //def terraformdir_LinuxInstance = "rwy"
 
   stage('Initiating'){
     echo "Cleaning up workspace"
@@ -20,16 +20,16 @@
   def db_stacks_2d_list = []
 
   //Backend Stacks
-  db_stacks_2d_list.add([tfPlanLinuxInstance, terraformdir_LinuxInstance, 'Simple Linux Instance', 'linux_instance'])
+  db_stacks_2d_list.add([tfPlanLinuxInstance,'Simple Linux Instance', 'linux_instance'])
  
 
-  dir() {
+  dir(terraformenv) {
     stage ('Checkout') {
         git_checkout()
     }
     for (stack_list in db_stacks_2d_list) {
        if (stack_list[0] == 'true') {
-          run_terraform(stack_list[1], stack_list[2], stack_list[3])
+          run_terraform(stack_list[1], stack_list[2])
       }
     }
   }
@@ -58,8 +58,8 @@ def terraform_apply() {
 	sh "terraform apply -input=false -no-color tfplan"
 }
 
-def run_terraform(terraformdir,stage_description,tfstate_key) {
-  dir(terraformdir) {
+def run_terraform(stage_description,tfstate_key) {
+  dir() {
     stage ('Terraform Remote State') {
       print ("### Terraform Remote State for ${stage_description} ###")
       terraformKey = "${tfstate_key}.tfstate"
