@@ -55,7 +55,7 @@ def terraform_init(terraformBucket, terraformPrefix, terraformkey) {
 def terraform_plan(workspace) {
     sh "terraform workspace select ${workspace} || terraform workspace new ${workspace}"
 	 
-    sh "terraform plan -destroy -no-color -out=tfplan"
+    sh "terraform plan -no-color -out=tfplan"
     
 
 }
