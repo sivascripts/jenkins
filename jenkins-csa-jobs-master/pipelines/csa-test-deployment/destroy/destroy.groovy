@@ -55,13 +55,13 @@ def terraform_init(terraformBucket, terraformPrefix, terraformkey) {
 def terraform_plan(workspace) {
     sh "terraform workspace select ${workspace} || terraform workspace new ${workspace}"
 	 
-    sh "terraform plan -no-color -out=tfplan"
+    sh "terraform plan -destroy -no-color -out=tfplan"
     
 
 }
 
 def terraform_destroy() {
-	sh "terraform destroy -input=false -no-color tfplan"
+	sh "terraform apply -input=false -no-color tfplan"
 }
  
 def run_terraform(terraformdir,stage_description,tfstate_key) {
