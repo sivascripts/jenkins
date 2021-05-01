@@ -7,7 +7,7 @@
   // CHECK - These may change depending on Terraform development
   node('master')
   {
-  def terraformdir_LinuxInstance = "terrafrom_linux"
+  def terraformdir_LinuxInstance = "rwy"
 
   stage('Initiating'){
     echo "Cleaning up workspace"
