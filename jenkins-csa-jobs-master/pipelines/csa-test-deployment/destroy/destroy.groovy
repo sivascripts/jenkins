@@ -41,9 +41,9 @@ def git_checkout() {
     checkout([$class: 'GitSCM', branches: [[name: gitBranch]], clearWorkspace: true, doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'SubmoduleOption', disableSubmodules: false, parentCredentials: true, recursiveSubmodules: true, reference: '', trackingSubmodules: false]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: gitCreds, url: gitUrl]]])
 }
 
-def terraform_init() {
+def terraform_init(terraformKey) {
   
-      sh "terraform init -no-color -force-copy -input=false"
+      sh "terraform init -no-color -force-copy -input=false -backend-config='key=${terraformkey}'"
       sh "terraform get -no-color -update=true"
 		}
 	
@@ -64,13 +64,13 @@ def run_terraform(terraformdir,stage_description,tfstate_key) {
     stage ('Terraform Remote State') {
       print ("### Terraform Remote State for ${stage_description} ###")
       terraformKey = "${tfstate_key}.tfstate"
-      terraform_init()
+      terraform_init(terraformKey)
     }
     stage ('Terraform Plan') {
       print ("### Terraform Plan for ${stage_description} ###")
       terraform_plan(terraformenv)
     }
-    if (terraformDestroyPlan == 'true') {
+    if (terraformDestroy == 'true') {
       stage ('Terraform Destroy') {
         print ("### Terraform Destroy for ${stage_description} ###")
         terraform_destroy()
