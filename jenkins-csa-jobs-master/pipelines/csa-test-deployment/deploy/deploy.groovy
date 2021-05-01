@@ -23,7 +23,7 @@
   db_stacks_2d_list.add([tfPlanLinuxInstance, terraformdir_LinuxInstance, 'Simple Linux Instance', 'linux_instance'])
  
 
-  dir(terraformenv) {
+  dir() {
     stage ('Checkout') {
         git_checkout()
     }
