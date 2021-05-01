@@ -71,7 +71,7 @@ def run_terraform(terraformdir,stage_description,tfstate_key) {
       print ("### Terraform Plan for ${stage_description} ###")
       terraform_plan(terraformenv)
     }
-    if (terraformApply == 'true') {
+    if (terraformApplyPlan == 'true') {
       stage ('Terraform Apply') {
         print ("### Terraform Apply for ${stage_description} ###")
         terraform_apply()
