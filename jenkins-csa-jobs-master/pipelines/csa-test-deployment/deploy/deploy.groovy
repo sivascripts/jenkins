@@ -44,7 +44,7 @@ def git_checkout() {
 def terraform_init(terraformBucket, terraformPrefix, terraformkey) {
   
       //sh "terraform init -no-color -force-copy -input=false"
-      sh "terraform init -no-color -force-copy -input=false -upgrade=true -backend=true -backend-config='bucket=${terraformBucket}' -backend-config='workspace_key_prefix=${terraformPrefix}' -backend-config='key=${terraformkey}'"
+      sh "terraform init -no-color -force-copy -input=false -upgrade=true -backend=true -backend-config='bucket=csaterraformremote' -backend-config='prefix=${terraformPrefix}/${terraformkey}'"
       sh "terraform get -no-color -update=true"
 		}
 	
