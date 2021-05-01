@@ -1,13 +1,14 @@
   // Global Variables declaration
   // CHECK - Is this the correct bucket/prefix?
-  terraformBucket = "csaterraformremote/"
-  terraformPrefix = "sab/dev/Jenkins"
+ 
 
   // Local Variables declaration
   // CHECK - These may change depending on Terraform development
   node('master')
   {
-  def terraformdir_LinuxInstance = "dev"
+  def terraformdir_LinuxInstance = "linux_instance"
+  terraformBucket = "csaterraformremote/"
+  terraformPrefix = "sab/dev/Jenkins"
 
   stage('Initiating'){
     echo "Cleaning up workspace"
@@ -58,8 +59,8 @@ def terraform_apply() {
 	sh "terraform apply -input=false -no-color tfplan"
 }
 
-def run_terraform(stage_description,tfstate_key) {
-  dir(terraformenv) {
+def run_terraform(terraformdir,stage_description,tfstate_key) {
+  dir(terraformdir) {
     stage ('Terraform Remote State') {
       print ("### Terraform Remote State for ${stage_description} ###")
       terraformKey = "${tfstate_key}.tfstate"
