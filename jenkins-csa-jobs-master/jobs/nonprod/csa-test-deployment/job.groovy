@@ -37,7 +37,7 @@ pipelineJob('csa-terraform-destroy') {
   }
   definition {
     cps {
-      script(readFileFromWorkspace('jenkins-csa-jobs-master/pipelines/csa-test-deployment/deploy/destroy.groovy'))
+      script(readFileFromWorkspace('jenkins-csa-jobs-master/pipelines/csa-test-deployment/destroy/destroy.groovy'))
 	    sandbox()
     }
   }
