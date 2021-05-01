@@ -5,7 +5,7 @@
 
   // Local Variables declaration
   // CHECK - These may change depending on Terraform development
-  node('any')
+  node('master')
   {
   def terraformdir_LinuxInstance = "terrafrom_linux"
 
