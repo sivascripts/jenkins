@@ -5,9 +5,8 @@
 
   // Local Variables declaration
   // CHECK - These may change depending on Terraform development
-  pipeline
+  node('any')
   {
-    agent any
   def terraformdir_LinuxInstance = "terrafrom_linux"
 
   stage('Initiating'){
